@@ -28,7 +28,7 @@ async function run() {
     await client.connect();
 
     const menuCollection = client.db("kitroDb").collection("menu");
-    const reviewsCollection = client.db("kitroDb").collection("menu")
+    const reviewsCollection = client.db("kitroDb").collection("reviews")
 
     app.get('/menu', async (req, res) =>{
       const result = await menuCollection.find().toArray();
