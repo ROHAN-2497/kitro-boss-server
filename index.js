@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 require("dotenv").config();
+const  jwt = require('jsonwebtoken');
 const port = process.env.PORT || 5000;
 // middle ware
 app.use(cors());
@@ -46,6 +47,24 @@ app.post('/users', async(req, res) =>{
     return res.send({message: 'user Already existing'})
   }
   const result = await usersCollection.insertOne(user)
+  res.send(result);
+})
+
+app.patch('/users/admin/:id', async(req,res) =>{
+  const id = req.params.id;
+  const query = { _id :  new ObjectId(id)};
+  const updateDoc = {
+    $set: {
+      role: 'admin'
+    },
+  };
+  const result = await usersCollection.updateOne(query,updateDoc );
+  res.send(result)
+})
+app.delete('/users/:id', async(req, res)=>{
+  const id = req.params;
+  const query = { _Id: new ObjectId(id) };
+  const result = await usersCollection.deleteOne(query);
   res.send(result);
 })
 
